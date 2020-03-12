@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audio_cache.dart';
@@ -12,7 +11,8 @@ class DemoScreen extends StatefulWidget {
 
 class _DemoScreenState extends State<DemoScreen> {
   AudioCache _player = AudioCache();
-  Timer _timer;
+  int _codeLength = 13;
+
   TextEditingController _controller = TextEditingController();
   final String _rightSound = "right.amr";
   final String _wrongSound = "wrong.amr";
@@ -31,7 +31,7 @@ class _DemoScreenState extends State<DemoScreen> {
       _player.play(_wrongSound);
     }
 
-    Future.delayed(Duration(milliseconds: 500), () {
+    Future.delayed(Duration(milliseconds: 800), () {
       _controller.text = "";
     });
   }
@@ -55,10 +55,12 @@ class _DemoScreenState extends State<DemoScreen> {
           Container(
             width: 300,
             child: TextField(
+              autofocus: true,
               controller: _controller,
               onChanged: (text) {
-                if (text.length == 1)
-                  _timer = Timer(Duration(milliseconds: 50), playASound);
+                if (text.length == _codeLength) {
+                  playASound();
+                }
               },
               decoration: InputDecoration(
                 border: OutlineInputBorder(
